@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<!--- NODES --->
+<!-- id = id -->
+<!-- radius = Ukuran Node Lembaga -->
+<!-- subject = Subject -->
+<!-- name = Author & Affiliation -->
+<!-- group = warna lembaga -->
+
+<!--- LINKS --->
+<!--- source = Author --->
+<!--- target = Affiliation --->
+<!--- values = Ukuran edge --->
+
+<meta charset="utf-8">
+<style>
+    
+.background{
+    background: #C0C0C0;
+}
+
+.links line {
+  stroke: #ff0000;
+}
+
+.nodes circle {
+  stroke: #000000;
+  stroke-width: 1px;
+}
+
+body {
+  zoom: 130%;
+}
+
+h1 {
+    font-size: 27px;
+    margin: 0.1em;
+    text-align: center;
+    font-family: "Times New Roman";
+    
+}
+p.groove {border-style: groove;
+}
+
+
+</style>
+
+<h1>Graph of Relation</h1>
+<!--Untuk mengatur ukuran layar web-->
+
+<p class="groove">
+    <svg width="810" height="400"></svg>
+</p>
+
+
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+var color = d3.scaleOrdinal(d3.schemeCategory20);
+var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+    .force("charge", d3.forceManyBody())
+    .force("center", d3.forceCenter(width / 2, height / 2));
+
+d3.json("graph.json", function(error, graph) {
+  if (error) throw error;
+    
+//    Untuk mengatur edge
+    var link = svg.append("g")
+      .attr("class", "links")
+    .selectAll("line")
+    .data(graph.links)
+    .enter().append("line")
+      .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+   
+//    Untuk mengatur tulisan didalam node
+    var node = svg.append("g")
+      .attr("class", "nodes")
+    .selectAll("circle")
+    .data(graph.nodes)
+    .enter().append("circle")
+      .attr("r", function(d) { return d.radius; })
+      .attr("fill", function(d) { return color(d.group); })
+      .call(d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended));
+
+//   Untuk menampilkan Subject
+      node.append("title")
+              .text(function(d) { return d.subject;});
+//   Untuk menampilkan id        
+//    node.append("title")
+//      .text(function(d) { return d.id; });
+      
+//   Untuk mengatur tulisan diluar node
+    var myText = svg.selectAll(".mytext")
+        .data(graph.nodes)
+	.enter()
+	.append("text");
+	//the rest of your code
+
+    myText.style("fill", "#336600")
+        .attr("font-size", "13" )
+        .attr("width", "10")
+        .attr("height", "10")
+        .text(function(d) { return d.name; });
+
+  simulation
+      .nodes(graph.nodes)
+      .on("tick", ticked);
+
+  simulation.force("link")
+      .links(graph.links);
+
+  function ticked() {
+    link
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node
+        .attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+
+    myText
+        .attr("x", function(d) { return d.x; })
+        .attr("y", function(d) { return d.y; });
+  }
+});
+
+function dragstarted(d) {
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x;
+  d.fy = d.y;
+}
+
+function dragged(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+}
+
+function dragended(d) {
+  if (!d3.event.active) simulation.alphaTarget(0);
+  d.fx = null;
+  d.fy = null;
+}
+</script>
+
+
+

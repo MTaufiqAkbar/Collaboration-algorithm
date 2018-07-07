@@ -1,0 +1,42 @@
+{
+  "nodes": [
+    {"radius": 8, "id": "A1", 
+        "subject": "Subject: \n Engineering",
+        "name": "Riyanto, Slamet", "group": 1},
+    {"radius": 8, "id": "B1", "subject": "Subject: \n Engineering",
+        "name": "Marlina, Ekawati", "group": 1},
+    {"radius": 8, "id": "C1", "subject": "Subject: \n Tech",
+        "name": "Subagyo, Hendro", "group": 1},
+    {"radius": 8, "id": "D1", "subject": "Subject: \n Tech",
+        "name": "Afandi, Sjaeful", "group": 1},
+    {"radius": 8, "id": "A2", "subject": "Subject: \n Tech",
+        "name": "Norr, Firman", "group": 2},
+    {"radius": 8, "id": "B2", "subject": "Subject: \n Medical and Science",
+        "name": "Yaniasih", "group": 2},
+    {"radius": 8, "id": "C2","subject": "Subject: \n Environtmental and Science",
+        "name": "Pabottingi, Mochtar", "group": 2},
+    {"radius": 8, "id": "D2", "subject": "Subject: \n Medical and Science",
+        "name": "Rozi, Syafuan", "group": 2},
+    {"radius": 8, "id": "A3", "subject": "Subject: \n Medical and Science",
+        "name": "Haris, Syamsuddin", "group": 3},
+    {"radius": 8, "id": "B3", "subject": "Subject: \n Environmental and Science",
+        "name": "Anwar, Dewi Fortuna", "group": 4},
+    {"radius": 8, "id": "C3", "subject": "Subject: \n Medical and Science",
+        "name": "Bhakti, Ikrar Nusa", "group": 4},
+    {"radius": 8, "id": "A4", "subject": "Subject: \n Medical and Science",
+        "name": "Samego, Indria", "group": 5}
+  ],
+  "links": [
+    {"source": "B1", "target": "A1", "value": 1},
+    {"source": "A1", "target": "C1", "value": 1},
+    {"source": "C1", "target": "D1", "value": 1},
+    {"source": "A2", "target": "C2", "value": 1},
+    {"source": "C2", "target": "B3", "value": 15},
+    {"source": "A3", "target": "C3", "value": 3},
+    {"source": "C3", "target": "A4", "value": 10},
+    {"source": "A1", "target": "B3", "value": 5},
+    {"source": "C3", "target": "B3", "value":1},
+    {"source": "B2", "target": "C2", "value":1},
+    {"source": "D2", "target": "C2", "value":1}
+  ]
+}
